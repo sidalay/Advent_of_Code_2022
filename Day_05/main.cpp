@@ -6,13 +6,7 @@
 #include <stack>
 #include <tuple>
 
-// #define PART_ONE
-
-/*
-*   parse and store crate mapping in stacks
-*   parse instructions and store them in a vector of tuples<int,int,int>
-*   reorganize stacks using tuples
-*/
+#define PART_ONE
 
 void Organize(std::tuple<int,int,int> Instruction, std::array<std::stack<char>,9>& Stack) {
     #ifdef PART_ONE
