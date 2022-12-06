@@ -75,6 +75,7 @@ int main()
         }
     }
     std::cout << Sum << std::endl;
+    Input.close();
     return 0;
 }
 #endif
