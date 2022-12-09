@@ -98,8 +98,8 @@ int main()
     std::ifstream Input{"input.txt"};
     std::string Buffer{};
     std::stack<std::string> CWD{};
-    Folder Top{"/"};
-    Folder* Current{&Top};
+    Folder Root{"/"};
+    Folder* Current{&Root};
     size_t sum{};
     
     while (std::getline(Input,Buffer)) {
@@ -107,7 +107,7 @@ int main()
             while(std::getline(Input,Buffer)) {
                 if (Buffer.starts_with("dir")) {
                     if (CWD.top() == "/") {
-                        Top.mkdir(Buffer.substr(4), Current);
+                        Root.mkdir(Buffer.substr(4), Current);
                     }
                     else {
                         Current->get_dir(CWD.top())->mkdir(Buffer.substr(4), Current->get_dir(CWD.top()));
@@ -116,7 +116,7 @@ int main()
                 else if (isdigit(Buffer[0])) {
                     std::string_view Size{Buffer.begin(), Buffer.begin() + Buffer.find_first_of(' ') - 1};
                     if (CWD.top() == "/") {
-                        Top.touch(std::atoi(Size.data()), Buffer.substr(Buffer.find_first_of(' ') + 1));
+                        Root.touch(std::atoi(Size.data()), Buffer.substr(Buffer.find_first_of(' ') + 1));
                     }
                     else {
                         Current->get_dir(CWD.top())->touch(std::atoi(Size.data()), Buffer.substr(Buffer.find_first_of(' ') + 1));
@@ -144,15 +144,16 @@ int main()
         }
     }
 
-    // Top.print_all();
+    Root.print_all();
+    
     // Part 1 Solution
-    Top.get_size_under(sum);
+    Root.get_size_under(sum);
     std::cout << sum << std::endl;
 
     // Part 2 Solution
-    const size_t Required{(Top.get_size() + 30'000'000) - 70'000'000};
+    const size_t Required{(Root.get_size() + 30'000'000) - 70'000'000};
     std::vector<size_t> Folders{};
-    Top.make_space(Required, Folders);
+    Root.make_space(Required, Folders);
     std::sort(Folders.begin(), Folders.end());
     std::cout << Folders.at(0) << '\n';
     
